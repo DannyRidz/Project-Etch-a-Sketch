@@ -26,7 +26,29 @@ function createGrid(userInput) {
         div.style.width = `${squareWidth}px`;
         div.style.height = `${squareHeight}px`;
         div.addEventListener('mouseover', () => {
-            div.style.backgroundColor = 'blue';
+            if (!div.dataset.r) {
+                div.dataset.r = Math.floor(Math.random() * 256);
+                div.dataset.g = Math.floor(Math.random() * 256);
+                div.dataset.b = Math.floor(Math.random() * 256);
+                div.dataset.darkness = 0;
+            }
+
+            let r = parseInt(div.dataset.r);
+            let g = parseInt(div.dataset.g);
+            let b = parseInt(div.dataset.b);
+            let darkness = parseInt(div.dataset.darkness);
+
+            let factor = 1 - (darkness * 0.1);
+
+            let newR = Math.floor(r * factor);
+            let newG = Math.floor(g * factor);
+            let newB = Math.floor(b * factor);
+
+            div.style.backgroundColor = `rgb(${newR}, ${newG}, ${newB})`
+
+            if (darkness < 10) {
+                div.dataset.darkness = darkness + 1;
+            }
         })
         container.appendChild(div);
     }
